@@ -12,13 +12,14 @@ import kotlinx.coroutines.launch
 import java.time.LocalTime
 
 class HomeViewModel(application: Application): AndroidViewModel(application) {
-    private val data = AppDatabase.getDailyTaskDatabase(application.applicationContext)
+    private val context = application.applicationContext
+    private val data = AppDatabase.getDailyTaskDatabase(context)
     private val dailyTaskDao = data.dailyTaskDao()
     private val _dailyTask = MutableLiveData<List<DailyTask>>()
     init{
         viewModelScope.launch(Dispatchers.IO) {
             val defaultDailyTask = DailyTask(0,"Brush your teeth",
-                LocalTime.of(7,0,0),"Just brush your teeth")
+                LocalTime.now(),"Just brush your teeth")
             if(dailyTaskDao.getSize()==0){
                 dailyTaskDao.addDailyTask(defaultDailyTask)
             }
@@ -58,4 +59,5 @@ class HomeViewModel(application: Application): AndroidViewModel(application) {
         _dailyTask.postValue(dailyTaskDao.getAll())
     }
     val dailyTask: LiveData<List<DailyTask>> = _dailyTask
+
 }

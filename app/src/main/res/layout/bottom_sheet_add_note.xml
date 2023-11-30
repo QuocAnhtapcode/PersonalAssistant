@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_color">
+    android:background="@drawable/bg_rounded_top_blue">
 
     <TextView
+        android:id="@+id/text_new_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="ADD TASK"
+        android:text="NEW NOTE"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -17,24 +17,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="48dp"
         android:background="@drawable/bg_rounded_top_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back_button">
+        app:layout_constraintTop_toBottomOf="@+id/text_new_note">
 
         <TextView
             android:id="@+id/text_time"
@@ -58,19 +49,19 @@
             android:minHeight="48dp"
             android:paddingHorizontal="16dp"
             android:text="Choose your time here"
-            android:textStyle="bold"
             android:textColor="@color/gray"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/text_time"
             app:layout_constraintTop_toBottomOf="@+id/text_time" />
 
         <TextView
-            android:id="@+id/text_title"
+            android:id="@+id/text_note"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Title"
+            android:text="Note"
             android:textColor="@color/main_color"
             android:textSize="24dp"
             android:textStyle="bold"
@@ -78,34 +69,7 @@
             app:layout_constraintTop_toBottomOf="@+id/choose_time" />
 
         <EditText
-            android:id="@+id/choose_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:background="@drawable/bg_box"
-            android:gravity="center"
-            android:minHeight="48dp"
-            android:paddingHorizontal="16dp"
-            android:textColor="@color/gray"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/text_title"
-            app:layout_constraintTop_toBottomOf="@+id/text_title" />
-
-        <TextView
-            android:id="@+id/text_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Description"
-            android:textColor="@color/main_color"
-            android:textSize="24dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/text_title"
-            app:layout_constraintTop_toBottomOf="@+id/choose_title" />
-
-        <EditText
-            android:id="@+id/choose_description"
+            android:id="@+id/choose_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
@@ -116,13 +80,14 @@
             android:textColor="@color/gray"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/text_description"
-            app:layout_constraintTop_toBottomOf="@+id/text_description" />
+            app:layout_constraintStart_toStartOf="@id/text_note"
+            app:layout_constraintTop_toBottomOf="@+id/text_note" />
 
         <TextView
             android:id="@+id/create_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_button"
             android:padding="16dp"
@@ -130,9 +95,9 @@
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/choose_note" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

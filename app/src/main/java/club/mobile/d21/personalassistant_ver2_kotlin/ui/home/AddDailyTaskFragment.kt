@@ -1,6 +1,11 @@
 package club.mobile.d21.personalassistant_ver2_kotlin.ui.home
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +15,7 @@ import androidx.fragment.app.activityViewModels
 import club.mobile.d21.personalassistant_ver2_kotlin.R
 import club.mobile.d21.personalassistant_ver2_kotlin.data.DailyTask
 import club.mobile.d21.personalassistant_ver2_kotlin.databinding.FragmentAddDailyTaskBinding
+import club.mobile.d21.personalassistant_ver2_kotlin.service.NotificationReceiver
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -53,10 +59,35 @@ class AddDailyTaskFragment: Fragment() {
             if(binding.chooseTime.text.equals("Choose your time here")) {
                 return@setOnClickListener
             }
-            homeViewModel.addDailyTask(DailyTask(0,
-                    binding.chooseTitle.text.toString(),selectedTime,
-                    binding.chooseDescription.text.toString())
+            val newTask = DailyTask(0,
+                binding.chooseTitle.text.toString(),selectedTime,
+                binding.chooseDescription.text.toString())
+            val alarmIntent = Intent(requireContext(), NotificationReceiver::class.java)
+            alarmIntent.putExtra("title", newTask.name)
+            alarmIntent.putExtra("description", newTask.description)
+            val pendingIntent = PendingIntent.getBroadcast(
+                requireContext(),
+                newTask.id,
+                alarmIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
+            val taskHour = newTask.time.hour
+            val taskMinute = newTask.time.minute
+
+            val calendar = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, taskHour)
+                set(Calendar.MINUTE, taskMinute)
+                set(Calendar.SECOND, 0)
+            }
+            val alarmManager =
+                requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+            alarmManager.setExact(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
             )
+            homeViewModel.addDailyTask(newTask)
             parentFragmentManager.popBackStack()
         }
         binding.backButton.setOnClickListener {

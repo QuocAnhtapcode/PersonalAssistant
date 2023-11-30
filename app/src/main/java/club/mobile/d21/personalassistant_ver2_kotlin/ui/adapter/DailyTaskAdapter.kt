@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import club.mobile.d21.personalassistant_ver2_kotlin.R
 import club.mobile.d21.personalassistant_ver2_kotlin.data.DailyTask
 import club.mobile.d21.personalassistant_ver2_kotlin.databinding.ItemDailyTaskBinding
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class DailyTaskAdapter(private val dailyTasks: List<DailyTask>,
                        private val onStatusClick: (DailyTask) -> Unit,
@@ -17,7 +19,7 @@ class DailyTaskAdapter(private val dailyTasks: List<DailyTask>,
     inner class ViewHolder(private var binding: ItemDailyTaskBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(dailyTask: DailyTask) {
-            binding.taskName.text = dailyTask.time.toString() + " - " + dailyTask.name
+            binding.taskName.text = dailyTask.time.customFormat() + " - " + dailyTask.name
             if(dailyTask.status) {
                 binding.taskName.setTextColor(
                     ContextCompat.getColor(binding.root.context, R.color.main_color))
@@ -49,5 +51,10 @@ class DailyTaskAdapter(private val dailyTasks: List<DailyTask>,
 
     override fun getItemCount(): Int {
         return dailyTasks.size
+    }
+
+    fun LocalTime.customFormat(): String {
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        return this.format(formatter)
     }
 }

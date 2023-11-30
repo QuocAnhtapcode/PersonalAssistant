@@ -45,4 +45,5 @@ interface DailyTaskDao{
 
     @Update
     fun updateDailyTasks(tasks: List<DailyTask>)
+
 }

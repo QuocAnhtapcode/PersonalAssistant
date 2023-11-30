@@ -1,8 +1,13 @@
 package club.mobile.d21.personalassistant_ver2_kotlin.ui.priority_task
 
+import android.app.AlarmManager
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +26,7 @@ import club.mobile.d21.personalassistant_ver2_kotlin.data.Priority
 import club.mobile.d21.personalassistant_ver2_kotlin.data.PriorityTask
 import club.mobile.d21.personalassistant_ver2_kotlin.data.Subtask
 import club.mobile.d21.personalassistant_ver2_kotlin.databinding.FragmentAddPriorityTaskBinding
+import club.mobile.d21.personalassistant_ver2_kotlin.service.NotificationReceiver
 import club.mobile.d21.personalassistant_ver2_kotlin.ui.adapter.SubtaskAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.time.LocalDate
@@ -186,8 +192,42 @@ class AddPriorityTaskFragment: Fragment() {
                 || binding.chooseStartTime.text.isNullOrEmpty() || binding.chooseEndTime.text.isNullOrEmpty()
                 || binding.chooseTitle.text.isNullOrEmpty()) return@setOnClickListener
 
-            priorityTaskViewModel.addPriorityTask(PriorityTask(0,binding.chooseTitle.text.toString(),
-                category,startDate,endDate,startTime,endTime,priority,list))
+            val newTask = PriorityTask(0,binding.chooseTitle.text.toString(),
+                category,startDate,endDate,startTime,endTime,priority,list)
+
+            val alarmIntent = Intent(requireContext(), NotificationReceiver::class.java)
+            alarmIntent.putExtra("title", newTask.category)
+            alarmIntent.putExtra("description", newTask.name)
+            val pendingIntent = PendingIntent.getBroadcast(
+                requireContext(),
+                newTask.id,
+                alarmIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
+            val taskYear = newTask.endDate.year
+            val taskMonth = newTask.endDate.month.value - 1
+            val taskDay = newTask.endDate.dayOfMonth
+            val taskHour = newTask.endTime.hour
+            val taskMinute = newTask.endTime.minute
+
+            val calendar = Calendar.getInstance().apply {
+                set(Calendar.YEAR, taskYear)
+                set(Calendar.MONTH, taskMonth)
+                set(Calendar.DAY_OF_MONTH, taskDay)
+                set(Calendar.HOUR_OF_DAY, taskHour)
+                set(Calendar.MINUTE, taskMinute)
+                set(Calendar.SECOND, 0)
+            }
+            val alarmManager =
+                requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+            alarmManager.setExact(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
+
+            priorityTaskViewModel.addPriorityTask(newTask)
             parentFragmentManager.popBackStack()
         }
     }

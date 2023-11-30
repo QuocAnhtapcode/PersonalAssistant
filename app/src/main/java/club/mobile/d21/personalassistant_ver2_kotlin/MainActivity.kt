@@ -29,7 +29,7 @@ class MainActivity: AppCompatActivity() {
         setupActions()
     }
     private fun setupActions() {
-        val calendar = Calendar.getInstance();
+        val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("EEEE d MMMM yyyy", Locale.getDefault())
         val formattedDate = dateFormat.format(calendar.time)
         binding.todayDate.text = formattedDate

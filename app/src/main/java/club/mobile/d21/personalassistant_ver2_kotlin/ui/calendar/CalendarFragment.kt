@@ -11,11 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import club.mobile.d21.personalassistant_ver2_kotlin.data.Note
 import club.mobile.d21.personalassistant_ver2_kotlin.databinding.FragmentCalendarBinding
 import club.mobile.d21.personalassistant_ver2_kotlin.ui.adapter.NoteAdapter
 import java.time.LocalDate
-import java.time.LocalTime
 import java.time.temporal.TemporalAdjusters
 
 class CalendarFragment : Fragment() {
@@ -52,15 +50,8 @@ class CalendarFragment : Fragment() {
                         calendarViewModel.postValue(selectedDate)
                         binding.addButton.visibility = View.VISIBLE
                         binding.addButton.setOnClickListener {
-                            calendarViewModel.addNote(
-                                Note(
-                                    0,
-                                    "Test",
-                                    selectedDate,
-                                    LocalTime.now()
-                                )
-                            )
-
+                            val bottomSheet = AddNoteBottomSheet(selectedDate)
+                            bottomSheet.show(childFragmentManager, bottomSheet.tag)
                         }
                         calendarViewModel.note.observe(viewLifecycleOwner) { list ->
                             noteList.adapter = NoteAdapter(list,
