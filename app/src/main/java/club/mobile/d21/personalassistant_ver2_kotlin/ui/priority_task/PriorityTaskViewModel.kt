@@ -6,14 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import club.mobile.d21.personalassistant_ver2_kotlin.data.AppDatabase
-import club.mobile.d21.personalassistant_ver2_kotlin.data.Category
-import club.mobile.d21.personalassistant_ver2_kotlin.data.Priority
 import club.mobile.d21.personalassistant_ver2_kotlin.data.PriorityTask
 import club.mobile.d21.personalassistant_ver2_kotlin.data.Subtask
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.LocalTime
 
 class PriorityTaskViewModel(application: Application): AndroidViewModel(application){
     private val data = AppDatabase.getPriorityTaskDatabase(application.applicationContext)
@@ -35,45 +31,6 @@ class PriorityTaskViewModel(application: Application): AndroidViewModel(applicat
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            //priorityTaskDao.clearAll()
-            if(priorityTaskDao.getSize()==0){
-                var defaultTask = PriorityTask(0,"Báo cáo bài tập lớn OOP",Category.EDUCATION,
-                    LocalDate.of(2023,10,20),LocalDate.of(2023,12,1),
-                    LocalTime.now(),LocalTime.of(14,5,0),Priority.CRITICAL,
-                    listOf(Subtask("Code"), Subtask("Viết báo cáo"), Subtask("Thuyết trình"))
-                )
-                priorityTaskDao.addPriorityTask(defaultTask)
-
-                defaultTask = PriorityTask(0,"Test Personal",Category.PERSONAL,
-                    LocalDate.of(2023,10,20),LocalDate.of(2023,12,1),
-                    LocalTime.now(),LocalTime.of(14,5,0),Priority.IMPORTANT,
-                    listOf(Subtask("Code"), Subtask("Viết báo cáo"), Subtask("Thuyết trình"))
-                )
-                priorityTaskDao.addPriorityTask(defaultTask)
-
-                defaultTask = PriorityTask(0,"Test Work",Category.WORK,
-                    LocalDate.of(2023,10,20),LocalDate.of(2023,12,1),
-                    LocalTime.now(),LocalTime.of(14,5,0),Priority.CRITICAL,
-                    listOf(Subtask("Code"), Subtask("Viết báo cáo"), Subtask("Thuyết trình"))
-                )
-                priorityTaskDao.addPriorityTask(defaultTask)
-
-                defaultTask = PriorityTask(0,"Test Family",Category.FAMILY,
-                    LocalDate.of(2023,10,20),LocalDate.of(2023,12,1),
-                    LocalTime.now(),LocalTime.of(14,5,0),Priority.CRITICAL,
-                    listOf(Subtask("Code"), Subtask("Viết báo cáo"), Subtask("Thuyết trình"))
-                )
-                priorityTaskDao.addPriorityTask(defaultTask)
-
-                defaultTask = PriorityTask(0,"Test Friend",Category.FRIEND,
-                    LocalDate.of(2023,10,20),LocalDate.of(2023,12,1),
-                    LocalTime.now(),LocalTime.of(14,5,0),Priority.LOW_PRIORITY,
-                    listOf(Subtask("Code"), Subtask("Viết báo cáo"), Subtask("Thuyết trình"))
-                )
-                priorityTaskDao.addPriorityTask(defaultTask)
-
-                postValue()
-            }
             postValue()
         }
     }

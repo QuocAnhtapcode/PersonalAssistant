@@ -9,7 +9,6 @@ import club.mobile.d21.personalassistant_ver2_kotlin.data.AppDatabase
 import club.mobile.d21.personalassistant_ver2_kotlin.data.DailyTask
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.LocalTime
 
 class HomeViewModel(application: Application): AndroidViewModel(application) {
     private val context = application.applicationContext
@@ -18,11 +17,6 @@ class HomeViewModel(application: Application): AndroidViewModel(application) {
     private val _dailyTask = MutableLiveData<List<DailyTask>>()
     init{
         viewModelScope.launch(Dispatchers.IO) {
-            val defaultDailyTask = DailyTask(0,"Brush your teeth",
-                LocalTime.now(),"Just brush your teeth")
-            if(dailyTaskDao.getSize()==0){
-                dailyTaskDao.addDailyTask(defaultDailyTask)
-            }
             _dailyTask.postValue(dailyTaskDao.getAll())
         }
     }
