@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_home">
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="club.mobile.d21.personalassistant_ver2_kotlin.ui.home.HomeFragment"
+        android:label="HOME"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_addDailyTaskFragment"
+            app:destination="@id/addDailyTaskFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_priorityTaskFragment"
+            app:destination="@id/priorityTaskFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addDailyTaskFragment"
+        android:name="club.mobile.d21.personalassistant_ver2_kotlin.ui.home.AddDailyTaskFragment"
+        android:label="ADD DAILY TASK"
+        tools:layout="@layout/fragment_add_daily_task" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/priorityTaskFragment"
+        android:name="club.mobile.d21.personalassistant_ver2_kotlin.ui.priority_task.PriorityTaskFragment"
+        android:label="PRIORITY TASK"
+        tools:layout="@layout/fragment_priority_task" >
+        <action
+            android:id="@+id/action_priorityTaskFragment_to_addPriorityTaskFragment"
+            app:destination="@+id/addPriorityTaskFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/addPriorityTaskFragment"
+        android:name="club.mobile.d21.personalassistant_ver2_kotlin.ui.priority_task.AddPriorityTaskFragment"
+        android:label="ADD PRIORITY TASK"
+        tools:layout="@layout/fragment_add_priority_task" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_calendar"
+        android:name="club.mobile.d21.personalassistant_ver2_kotlin.ui.calendar.CalendarFragment"
+        android:label="CALENDAR"
+        tools:layout="@layout/fragment_calendar"/>
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="club.mobile.d21.personalassistant_ver2_kotlin.ui.profile.ProfileFragment"
+        android:label="PROFILE"
+        tools:layout="@layout/fragment_profile"/>
+</navigation>
